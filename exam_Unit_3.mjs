@@ -24,7 +24,7 @@ const PLAYER_NAME = "aleksandte@uia.no";
 const USER_ANSWER1 = ["Gold", "Quicksilver", "Silver", "Iron", "Gold"];
 const USER_ANSWER2 = "SILVER";
 const USER_ANSWER3 = "☿♀🜍🜂🜔🜄☉🜁";
-const USER_ANSWER4 = "";
+const USER_ANSWER4 = "Argon";
 
 const symbols = {
     "symbol ☉": {
@@ -90,4 +90,4 @@ const answer4 = await interactionWithAPI(`/answer`, 'POST', {
     "answer": USER_ANSWER4,
 });
 
-//console.log(answer4);
+console.log(answer4);
