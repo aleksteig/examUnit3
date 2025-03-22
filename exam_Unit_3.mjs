@@ -1,11 +1,10 @@
 import fetch from "node-fetch";
 
 async function interactionWithAPI(endpoint, method, body = null) {
-    const response = await fetch(`https://bit.ly/UiA_Alchemy_25${endpoint}`, {
+    const response = await fetch(`https://alchemy-kd0l.onrender.com${endpoint}`, {
         method,
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
         },
         body: method !== 'GET' && body ? JSON.stringify(body) : undefined,
     });
@@ -17,8 +16,8 @@ async function interactionWithAPI(endpoint, method, body = null) {
     return await response.json();
 }
 
-const playerID = "aleksandte@uia.no";
+const PLAYER_NAME = "aleksandte@uia.no";
 
-/*const start = await interactionWithAPI(`answer`, 'GET', {
-    player: playerID,
-});*/
+const start = await interactionWithAPI(`/start?player=${PLAYER_NAME}`, 'GET');
+
+console.log(start);
