@@ -23,6 +23,8 @@ async function interactionWithAPI(endpoint, method, body = null, expectHtml = fa
 const PLAYER_NAME = "aleksandte@uia.no";
 const USER_ANSWER1 = ["Gold", "Quicksilver", "Silver", "Iron", "Gold"];
 const USER_ANSWER2 = "SILVER";
+const USER_ANSWER3 = "☿♀🜍🜂🜔🜄☉🜁";
+const USER_ANSWER4 = "";
 
 const symbols = {
     "symbol ☉": {
@@ -52,7 +54,7 @@ const symbols = {
     
 }
 
-//console.table(symbols)
+// console.table(symbols)
 
 const start = await interactionWithAPI(`/start?player=${PLAYER_NAME}`, 'GET');
 
@@ -74,4 +76,18 @@ const answer2 = await interactionWithAPI(`/answer`, 'POST', {
     "answer": USER_ANSWER2,
 });
 
-console.log(answer2);
+//console.log(answer2);
+
+const answer3 = await interactionWithAPI(`/answer`, 'POST', {
+    "player": PLAYER_NAME,
+    "answer": USER_ANSWER3,
+});
+
+//console.log(answer3);
+
+const answer4 = await interactionWithAPI(`/answer`, 'POST', {
+    "player": PLAYER_NAME,
+    "answer": USER_ANSWER4,
+});
+
+//console.log(answer4);
