@@ -147,3 +147,47 @@ async function challenge1(){
 }
 
 // challenge1();
+
+async function challenge2(){
+    const challenge2 = {
+        challenge: `Your work was examplary, unfortunatlyt it turnes out we where not as close as first belived. The code only gave us access to a note with a poem, the evil 
+        bastard had dusted it with Berulium powder so several of our alcylots are nolonger among us. We must be more carefull in the future. 
+        Anyways the poem read “Still flows the Icy Lethe, Veiling all ’neath Eldritch Rime.”, can you make anything of it?`
+    }
+
+    const data = challenge2.challenge;
+    //console.log(data);
+
+    let insidePoem = false;
+    let charInAlphabetAndCapital = false;
+    let secretMessage = "";
+
+    for(let i = 0; i < data.length; i++){
+        let currentChar = data[i];
+        if(currentChar == "“"){
+            insidePoem = true;
+        } else if (currentChar == "”"){
+            insidePoem = false;
+        }
+        if(insidePoem){
+            for(let i = 0; i < alphabet.length; i++){
+                if(currentChar == alphabet[i].toLocaleUpperCase()){
+                    charInAlphabetAndCapital = true;
+                } else {
+                    charInAlphabetAndCapital = false;
+                }
+                if(charInAlphabetAndCapital){
+                    secretMessage += currentChar;
+                }
+            }
+        }
+    }
+
+    sendAnswer(secretMessage);
+}
+
+//challenge2();
+
+async function challenge3(){
+    
+}
