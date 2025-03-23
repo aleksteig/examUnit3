@@ -26,68 +26,124 @@ const USER_ANSWER2 = "SILVER";
 const USER_ANSWER3 = "☿♀🜍🜂🜔🜄☉🜁";
 const USER_ANSWER4 = "Argon";
 
+const alphabet = [
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", 
+]
+
 const symbols = {
-    "symbol ☉": {
-        "planar body": "sun",
-        "periodic name": "Au",
-        "periodic number": 79,
-        "periodic element": "gold",
+    "0": {
+        symbol: "☉",
+        planarBody: "sun",
+        periodicElement: "Gold",
     },
-    "symbol ☿": {
-        "planar body": "mercury",
-        "periodic name": "Hg",
-        "periodic number": 80,
-        "periodic element": "quicksilver/mercury",
+    "1": {
+        symbol: "☿",
+        planarBody: "mercury",
+        periodicElement: "Quicksilver",
     },
-    "symbol ☽": {
-        "planar body": "moon",
-        "periodic name": "Ag",
-        "periodic number": 47,
-        "periodic element": "silver",
+    "2": {
+        symbol: "☽",
+        planarBody: "moon",
+        periodicElement: "Silver",
     },
-    "symbol ♂": {
-        "planar body": "mars",
-        "periodic name": "Fe",
-        "periodic number": 26,
-        "periodic element": "iron",
+    "3": {
+        symbol: "♂",
+        planarBody: "mars",
+        periodicElement: "Iron",
     },
-    
+    "4": {
+        symbol: "🜁",
+        planarBody: "",
+        periodicElement: "Air",
+    },
+    "5": {
+        symbol: "🜃",
+        planarBody: "",
+        periodicElement: "Earth",
+    },
+    "6": {
+        symbol: "🜂",
+        planarBody: "",
+        periodicElement: "Fire",
+    },
+    "7": {
+        symbol: "🜄",
+        planarBody: "",
+        periodicElement: "Water",
+    },
+    "8": {
+        symbol: "♀",
+        planarBody: "venus",
+        periodicElement: "Copper",
+    },
+    "9": {
+        symbol: "♃",
+        planarBody: "jupiter",
+        periodicElement: "Tin",
+    },
+    "10": {
+        symbol: "♄",
+        planarBody: "saturn",
+        periodicElement: "Lead",
+    },
 }
 
 // console.table(symbols)
 
-const start = await interactionWithAPI(`/start?player=${PLAYER_NAME}`, 'GET');
+async function sendAnswer(answer){
+    return interactionWithAPI(`/answer`, 'POST', {
+        "player": PLAYER_NAME,
+        "answer": answer,
+    });
+}
 
-//console.log(start);
+// Starting the challenge
+async function startChallenge(){
+    console.log(await interactionWithAPI(`/start?player=${PLAYER_NAME}`, 'GET'));
+}
 
-const clue1 = await interactionWithAPI(`/clue?player=${PLAYER_NAME}`, 'GET', null, true);
+//startChallenge();
 
-//console.log(clue1);
+async function challenge1(){
+    const challenge1 = {
+        challenge: `Friend, we are close, I can taste success on the wind, we finally located Paracelsus lab, we will become rich beyond belief, we will rule. All that is needed is 
+        cracking the access code, I have been looking at this for days and beyond the inkling that it is an alchemical formula I have no idea. 
+        Can you give it a shoot and get us one step closer to the future that we deserve? This is the code “☉☿☽♂☉”, but what it encodes into is a mysteri. Pleace crack it.`
+    }
 
-const answer1 = await interactionWithAPI(`/answer`, 'POST', {
-    "player": PLAYER_NAME,
-    "answer": USER_ANSWER1,
-});
+    const data = challenge1.challenge;
+    let isInAlphabet = 0;
+    let filteredData = "";
 
-//console.log(answer1);
+    for(let i = 0; i < data.length; i++){
+        let currentChar = data[i];
+        for(let index = 0; index < alphabet.length; index++){
+            if(currentChar.toLowerCase() == alphabet[index]){
+                isInAlphabet += 1;
+            }
+        }
+        if(isInAlphabet == 0 && currentChar != " " && currentChar != "," && currentChar != "." && currentChar != "?" && currentChar != "“" && currentChar != "”" && currentChar != "\n"){
+            filteredData += currentChar;
+        }
+        isInAlphabet = 0;
+    }
 
-const answer2 = await interactionWithAPI(`/answer`, 'POST', {
-    "player": PLAYER_NAME,
-    "answer": USER_ANSWER2,
-});
+    let listOfMetals = [];
+    let listOfSymbolsLength = Object.values(symbols).length;
+    let filteredDataLength = filteredData.length
 
-//console.log(answer2);
+    for(let i = 0; i < filteredDataLength; i++){
+        let currentChar = filteredData[i];
+        for(let index = 0; index < listOfSymbolsLength; index++){
+            let currentSymbol = Object.values(symbols[index].symbol).toString()
+            if(currentChar == currentSymbol){
+                listOfMetals.push(Object.values(symbols[index].periodicElement).toString().replaceAll(",", ""))
+            }
+        }
+    }
 
-const answer3 = await interactionWithAPI(`/answer`, 'POST', {
-    "player": PLAYER_NAME,
-    "answer": USER_ANSWER3,
-});
+    sendAnswer(listOfMetals);
 
-//console.log(answer3);
+}
 
-const answer4 = await interactionWithAPI(`/answer`, 'POST', {
-    "player": PLAYER_NAME,
-    "answer": USER_ANSWER4,
-});
-
-console.log(answer4);
+// challenge1();
