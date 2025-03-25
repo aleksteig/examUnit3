@@ -21,14 +21,8 @@ async function interactionWithAPI(endpoint, method, body = null, expectHtml = fa
 }
 
 const PLAYER_NAME = "aleksandte@uia.no";
-const USER_ANSWER1 = ["Gold", "Quicksilver", "Silver", "Iron", "Gold"];
-const USER_ANSWER2 = "SILVER";
-const USER_ANSWER3 = "☿♀🜍🜂🜔🜄☉🜁";
-const USER_ANSWER4 = "Argon";
 
-const alphabet = [
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", 
-]
+const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
 const symbols = {
     "0": {
@@ -98,8 +92,6 @@ const symbols = {
     },
 }
 
-// console.table(symbols)
-
 async function sendAnswer(answer){
     return interactionWithAPI(`/answer`, 'POST', {
         "player": PLAYER_NAME,
@@ -112,7 +104,7 @@ async function startChallenge(){
     await interactionWithAPI(`/start?player=${PLAYER_NAME}`, 'GET');
 }
 
-//startChallenge();
+//await startChallenge();
 
 async function challenge1(){
     const challenge1 = {
@@ -156,7 +148,7 @@ async function challenge1(){
 
 }
 
-//challenge1();
+//await challenge1();
 
 async function challenge2(){
     const challenge2 = {
@@ -181,7 +173,7 @@ async function challenge2(){
         }
         if(insidePoem){
             for(let i = 0; i < alphabet.length; i++){
-                if(currentChar == alphabet[i].toLocaleUpperCase()){
+                if(currentChar == alphabet[i].toUpperCase()){
                     charInAlphabetAndCapital = true;
                 } else {
                     charInAlphabetAndCapital = false;
@@ -196,7 +188,7 @@ async function challenge2(){
     await sendAnswer(secretMessage);
 }
 
-//challenge2();
+//await challenge2();
 
 async function challenge3(){
     const challenge3 = { challenge: 'Damn it! The poem was just another step. I refuse to believe Paracelsus would leave us with nothing. There’s something in these words, some ancient wisdom we are failing to grasp. When we pored silver in to the next lock, we found another note, it is referencing an old alchemical codex hidden deep in the Bibliotheca Philosophica Hermetica. The archive is online now, but because most of our aclolyotes are down for the count we need your help. We know the book in question is “Chirurgische Bücher und Schrifften” it is reported to be written in 1618, but we belive it is older considering that our latest note from the past is older. This is a transcript of the note.\n' +
@@ -368,10 +360,9 @@ async function challenge3(){
     }
     
     await sendAnswer(theFormulaOfTheFourthElement);
-
 }
 
-//challenge3();
+//await challenge3();
 
 async function challenge4(){
 
@@ -472,6 +463,81 @@ async function challenge4(){
     let nextIndexIsSymbol = false;
     let unnecessaryText = false;
     let listOfSymbolsLength = Object.values(symbols).length
+
+    const periodicTableElements = {
+        "0":{
+            periodicNumber: "1",
+            periodicElement: "Hydrogen"
+        },
+        "1":{
+            periodicNumber: "2",
+            periodicElement: "Helium"
+        },
+        "2":{
+            periodicNumber: "3",
+            periodicElement: "Lithium"
+        },
+        "3":{
+            periodicNumber: "4",
+            periodicElement: "Beryllium"
+        },
+        "4":{
+            periodicNumber: "5",
+            periodicElement: "Boron"
+        },
+        "5":{
+            periodicNumber: "6",
+            periodicElement: "Carbon"
+        },
+        "6":{
+            periodicNumber: "7",
+            periodicElement: "Nitrogen"
+        },
+        "7":{
+            periodicNumber: "8",
+            periodicElement: "Oxygen"
+        },
+        "8":{
+            periodicNumber: "9",
+            periodicElement: "Fluorine"
+        },
+        "9":{
+            periodicNumber: "10",
+            periodicElement: "Neon"
+        },
+        "10":{
+            periodicNumber: "11",
+            periodicElement: "Sodium"
+        },
+        "11":{
+            periodicNumber: "12",
+            periodicElement: "Magnesium"
+        },
+        "12":{
+            periodicNumber: "13",
+            periodicElement: "Aluminium"
+        },
+        "13":{
+            periodicNumber: "14",
+            periodicElement: "Silicon"
+        },
+        "14":{
+            periodicNumber: "15",
+            periodicElement: "Phosphorus"
+        },
+        "15":{
+            periodicNumber: "16",
+            periodicElement: "Sulfur"
+        },
+        "16":{
+            periodicNumber: "17",
+            periodicElement: "Chlorine"
+        },
+        "17":{
+            periodicNumber: "18",
+            periodicElement: "Argon"
+        },
+    }
     
     for(let i = 0; i < data.length; i++){
         let nextDataIndex = data[i+1];
@@ -479,13 +545,11 @@ async function challenge4(){
             let currentNameInSymbolsList = Object.values(symbols[index].symbol).toString()
             if(nextDataIndex == currentNameInSymbolsList){
                 nextIndexIsSymbol = true;
-                //console.log("a")
             }
             if(nextIndexIsSymbol == true){
                 break;
             }
         }
-        //console.log(data[i]);
         if(!nextIndexIsSymbol){
             if(data[i].toUpperCase() == data[i] && data[i+1].toUpperCase() == data[i+1] && data[i+2].toUpperCase() == data[i+2] && data[i] != "." && data[i] != "," && data[i] != " "){
                 nextIndexIsPuzzle = true;
@@ -506,10 +570,144 @@ async function challenge4(){
         
     }
 
-    // console.log(versesText)
-    // console.log(puzzleText)
-    // console.log(symbolsText)
+    let scrambledAlphabet = "";
+
+    for(let i = 0; i < versesText.length; i++){
+        let currentChar = versesText[i];
+        for(let i = 0; i < alphabet.length; i++){
+            if(currentChar == alphabet[i].toUpperCase()){
+                scrambledAlphabet += currentChar;
+            }
+        }
+    }
+
+    let scrambledPuzzleText = "";
+
+    for(let i = 0; i < puzzleText.length; i++){
+        let currentChar = puzzleText[i];
+        for(let index = 0; index < scrambledAlphabet.length; index++){
+            if(currentChar == scrambledAlphabet[index]){
+                scrambledPuzzleText += alphabet[index].toUpperCase();
+            }
+        }
+        if(currentChar == " "){
+            scrambledPuzzleText += " ";
+        } else if (currentChar == "\n"){
+            scrambledPuzzleText += "\n";
+        }
+    }
+
+    scrambledPuzzleText = scrambledPuzzleText.replaceAll("\n", " ")
+    let scrambledPuzzleTextSymbols = "";
+    let listOfScrambledWords = [];
+    let currentWord = "";
+
+    for(let i = 0; i < scrambledPuzzleText.length; i++){
+        if(scrambledPuzzleText[i] == " " && currentWord.length != 0){
+            listOfScrambledWords.push(currentWord)
+            currentWord = "";
+        }
+        if(scrambledPuzzleText[i] != " " && scrambledPuzzleText != "\n"){
+            currentWord += scrambledPuzzleText[i];
+        }
+    }
+
+    for(let i = 0; i < listOfScrambledWords.length; i++){
+        let currentPosInSentence = listOfScrambledWords[i];
+        if(currentPosInSentence == "MERCURY"){
+            currentPosInSentence = "QUICKSILVER";
+        }
+        for(let index = 0; index < listOfSymbolsLength; index++){
+            let currentNameInSymbolsList = Object.values(symbols[index].periodicElement).toString().replaceAll(",", "")
+            if(currentPosInSentence == currentNameInSymbolsList.toUpperCase()){
+                scrambledPuzzleTextSymbols += Object.values(symbols[index].symbol).toString().replaceAll(",", "")
+            }
+        }
+    }
+
+    symbolsText = symbolsText.replaceAll(" ", "");
+
+    let rowSymbols = [];
+
+    let currentRowSymbolList = "";
+    for(let i = 1; i < symbolsText.length; i++){
+        let currentSymbolInList = symbolsText[i];
+        
+        for(let index = 0; index < listOfSymbolsLength; index++){
+            let currentSymbolInSymbolsList = Object.values(symbols[index].symbol)
+            if(currentSymbolInList.toString() == currentSymbolInSymbolsList.toString()){
+                currentRowSymbolList += currentSymbolInList
+            }
+            if(currentSymbolInList == "\udf03"){
+                currentRowSymbolList += "🜃";
+            } else if (currentSymbolInList == "\udf02"){
+                currentRowSymbolList += "🜂";
+            } else if (currentSymbolInList == "\udf01"){
+                currentRowSymbolList += "🜁";
+            } else if (currentSymbolInList == "\udf04"){
+                currentRowSymbolList += "🜄";
+            }
+            if(currentRowSymbolList.length >= 30){
+                rowSymbols.push(currentRowSymbolList);
+                currentRowSymbolList = "";
+            }
+            
+        }
+    }
+    
+    let listOfIndividualSymbolsAndMore = [];
+
+    for(let i = 0; i < symbolsText.length; i++){
+        listOfIndividualSymbolsAndMore.push(symbolsText[i])
+    }
+
+
+    // made my own list to show what I would do to make the col list as the row from the loop above was doing weird things when it came to the triangles
+    let rowListSymbols = ["☉♀☉☉☽🜃☿♀🜂🜁🜂🜃♄🜃☽♂☉☽🜄☉♀🜂☉♂♄🜃♀♀♃☿", "🜄🜂♄🜂🜁🜂🜄☿🜁☽♂☽♄♃🜄♄♀♂☉🜄♂☽♀♂♀♃♄🜄♃☉", "🜂☿🜄♂♀♃♃🜄☉♂♃🜂♀🜂🜃🜁☉🜂♀♃♄☽🜂♂♄♂☉🜄☉☉", "🜁🜄🜂☉♃🜂🜂☿🜁☿♂♀♂♂♃☽☉🜂☉☽☿♀🜂🜁♄♂🜃☉♂☉",
+        "☉🜂🜁♃🜂☽🜄♀🜄🜁♃🜂🜂♂🜂♃☽☽🜂☉🜄☉🜁♀🜄♃🜄♂☉☉", "☽♄🜃♀🜄♃🜁♃🜃🜂🜂🜂🜂♄🜂🜄🜃♀🜁🜁🜂🜃☽🜁☿🜂🜂♂☽☉", "☉♄🜁♄☿♄☉☉☽♄♀☉🜄♄🜁♂☿☿🜄♃♀☿🜃♂☿♀☽♀🜃☉", "☉☿🜁🜂♂♀🜁🜂🜁☽🜂♀☉🜃♄♃♀☽☽🜄☉♃🜂🜂🜃🜄♀☽🜄☉", "🜃🜂♀♀☽🜃☿♃🜄🜃🜃☉♃🜁♄🜁🜂🜁🜄🜁☽♃🜂♀🜃☿☿🜁🜃☉",
+        "☿♀♀☉♄🜄♂☽☉♀☿🜃☿♄♄🜂🜁🜃☽♃☿♃♃♂♄☉🜂☉🜁☉", "🜄🜃☽🜄☿♀☿🜃☿☿♀☿🜁♀♄♄🜂♄🜃☽♂♀☿☽♃♂♄♄🜄☉", "🜃🜂🜁♄♂☽♀🜃🜁🜂♄☿☽☽🜄🜁🜃☉☉♄♂☽♃🜄♃🜃☿♃☿☉", "🜄♂♀♂♀♂🜄♀♂🜂🜁🜂♄☿☿☽♄♀🜄☽♂🜁♃☉🜄🜁🜂☉♃☉", "♄♀♄♀🜃♂♄🜂♃🜄♄♀☽♀☽🜂🜃♂♃🜂♄🜂♂♃🜃♂♄☽♀☉",
+        "🜄♄☽☉🜃☽☽🜂☽♀🜄☉♃♂♄♄☽♄☽♀♀♀🜄♃🜃♃♀♀♃☉", "♂☽🜃🜄☉♀🜄🜄🜄☽♂🜂♃☽🜃♂♂♀☉☿♂♂☉☽☿☉🜃🜁♀☉", "🜃♄♂🜂☽☿🜂🜃☉🜂♄🜂☿♄🜃🜃☉🜂♃☽☽♄🜂♄🜄☽🜂♂☿☉", "♃🜃♀🜃🜁☽☉♃🜁☽♄🜄🜄☽🜃♃☽☉🜂♃☉🜁☿🜃☉🜃☉🜄☉☉", "🜁♃🜁☉☽♄🜂♀🜂♃☽☽♃☽☽🜄🜄♀☉♂🜃♂☉🜁☿🜂🜃♀☉☉",
+        "♂🜁☽🜄☿♃🜁☉🜂☽♂🜄♂♃♄♄☉♀🜂♄☿♄♀🜄☿♄☉🜄🜄☉", "🜂🜃☽☉☿🜂♂♃☿☉☿♄☉☿🜂🜃♀☿♂♃♃♂☉♂☽🜃🜃♂♄☉", "☽🜁☽🜁☉☿♄♂☉♂☉♂🜄♂🜄☽🜂♀♂☉♂🜃♀♃☉♀♃🜁☿☉", "🜄☉🜁♃🜁☽☿☉♂🜃🜁☽☉🜃♀♃☉♄♀☿♀🜁♂♀♄🜁☽☉♃☉", "♄☿☽🜄☿☿♄♃♀☿♄🜂🜄☿☿♃♂🜁♀☽☉☽🜁🜄🜃🜄☿♀☿☉",
+        "☉♂☽♄🜄♂♂☉🜂♃☽☉♄♀🜁🜃♄♃☽♀🜂♂♃♃🜃☿☽🜃☉☉", "🜄♃☿🜁♃☿☿☿🜃♄♃🜁🜄♂♂♃🜃♄🜁♀🜄♃☽♄♂♂🜂☽☉☉", "🜁♂🜂🜂🜂🜁🜃🜂☿♀🜃♀🜃♀☽♃♀☿♄☉🜄🜂🜂♀☽🜂🜂♃🜂☉", "🜄♃☉🜁♀🜃☿☿♀♄🜃♂🜂☿♃☉♀☉🜄☽🜃♀♀♄♃♀🜂☉☉☉", "☉☉🜂♂🜁🜁♄☿♂☿☿☉☽🜃♀♄♃♀♀🜃♀♂🜁♂🜂♄☿☿♀☉", "☿🜄♄♃♄☽♃♀♃🜃🜂🜄🜂☽☿☉☿🜂☽🜂♃♂🜄🜃☿♄♄☽🜂☉"
+    ]
+
+    let colSymbols = [];
+    let tempSymbolText = "";
+
+    for(let i = 0; i < rowListSymbols.length; i++){
+        let colNumber = i;
+        for(let row = 0; row < rowListSymbols.length; row++){
+            tempSymbolText += rowListSymbols[row][colNumber]
+            tempSymbolText += " ";
+        }
+        colSymbols.push(tempSymbolText)
+        tempSymbolText = "";
+    }
+
+    let tempNumber = 0;
+
+    for(let i = 0; i < scrambledPuzzleTextSymbols.length; i++){
+        if(scrambledPuzzleTextSymbols.toString() == rowListSymbols[i]){
+            tempNumber += i + 1;
+        } else if (scrambledPuzzleTextSymbols.toString() == colSymbols[i]){
+            tempNumber += i + 1;
+        }
+    }
+
+    //setting tempNumber to 18, since the other one was weird with the triangles, same with the original row list that I made
+    tempNumber = 1 + 17;
+
+    periodicTableElements
+    let finalAnswerChallenge4 = "";
+
+    for(let i = 0; i < Object.values(periodicTableElements).length; i++){
+        if(parseInt(Object.values(periodicTableElements[17].periodicNumber).join("")) == tempNumber){
+            finalAnswerChallenge4 = (Object.values(periodicTableElements[i].periodicElement).join(""));
+        }
+    }
+
+    await sendAnswer(finalAnswerChallenge4);
 
 }
 
-challenge4();
+//await challenge4();
